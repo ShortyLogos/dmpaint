@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -23,6 +24,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Vector;
 
@@ -221,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View source) {
+            // On supprime le dernier élément ajouté dans le vecteur d'objets Dessin
             if (source == undo && objetsDessin.size() > 0) {
                 objetsDessin.remove(objetsDessin.size() - 1);
                 surface.invalidate();
@@ -249,18 +255,16 @@ public class MainActivity extends AppCompatActivity {
                 outilActif = "remplir";
             }
             else if (source == supprimer)  {
-                if (objetsDessin.size() > 0) {
-                    objetsDessin.clear();
-                }
-                couleurFondActive = Color.WHITE;
-                surface.invalidate();
-                traceLibre = null;
+                String msg = "Vous vous apprêtez à supprimer votre image. Cette action est" +
+                        " irréversible.";
+                boiteDialogue(msg, "Supprimer votre image?", true);
+                // Appel de la fonction supprimerSurface() via la boîte de dialogue.
             }
             else if (source == info) {
                 String msg = "Réalisé par Déric Marchand\n\n" +
                         "Couleur personnalisée : cliquez sur l'afficheur de couleur active.\n\n" +
                         "Prenez garde : la suppression d'une image à l'aide du bouton Supprimer est permanente. Le bouton Undo ne vous sauvera pas :)";
-                boiteDialogue(msg, "DMPaint v1.0");
+                boiteDialogue(msg, "DMPaint v1.0", false);
             }
         }
 
@@ -344,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
             surface.setBackgroundColor(couleurFondActive);
         }
 
+        // On récupère la Surface de dessin sous forme de Bitmap
         public Bitmap getBitmapImage() {
             this.buildDrawingCache();
             Bitmap bitmapImage = Bitmap.createBitmap(this.getDrawingCache());
@@ -351,13 +356,42 @@ public class MainActivity extends AppCompatActivity {
 
             return bitmapImage;
         }
+
+        public void supprimerImage() {
+            if (objetsDessin.size() > 0) {
+                objetsDessin.clear();
+            }
+            couleurFondActive = Color.WHITE;
+            surface.invalidate();
+            traceLibre = null;
+        }
     }
 
-    public void boiteDialogue(String msg, String titre) {
+    public void boiteDialogue(String msg, String titre, boolean boutons) {
         AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
 
-        b.setMessage(msg)
-                .setTitle(titre);
+        b.setMessage(msg);
+        b.setTitle(titre);
+
+        // Boutons requis par l'outil Supprimer
+        if (boutons) {
+            b.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    surface.supprimerImage();
+
+                   Toast.makeText(MainActivity.this,
+                            "Image supprimée.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            b.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(MainActivity.this,
+                            "Action annulée.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
         AlertDialog dialog = b.create();
         dialog.show();
