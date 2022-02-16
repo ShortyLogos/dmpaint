@@ -248,8 +248,11 @@ public class MainActivity extends AppCompatActivity {
             else if (source == remplir) {
                 outilActif = "remplir";
             }
-            else if (source == supprimer && objetsDessin.size() > 0)  {
-                objetsDessin.clear();
+            else if (source == supprimer)  {
+                if (objetsDessin.size() > 0) {
+                    objetsDessin.clear();
+                }
+                couleurFondActive = Color.WHITE;
                 surface.invalidate();
                 traceLibre = null;
             }
@@ -295,8 +298,6 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
 
-            surface.setBackgroundColor(couleurFondActive);
-
             crayonContour.setColor(couleurActive);
             crayonPlein.setColor(couleurActive);
             crayonEfface.setColor(couleurFondActive);
@@ -339,6 +340,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
+
+            surface.setBackgroundColor(couleurFondActive);
         }
 
         public Bitmap getBitmapImage() {
