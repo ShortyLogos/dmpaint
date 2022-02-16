@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView pipette;
     ImageView cercle;
     ImageView carre;
+    ImageView triangle;
+    ImageView remplir;
     ImageView info;
     ImageView supprimer;
 
@@ -75,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         pipette = findViewById(R.id.pipette);
         cercle = findViewById(R.id.cercle);
         carre = findViewById(R.id.carre);
+        triangle = findViewById(R.id.triangle);
+        remplir = findViewById(R.id.remplir);
         info = findViewById(R.id.info);
         supprimer = findViewById(R.id.supprimer);
 
@@ -149,6 +153,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (outilActif.equals("cercle") || outilActif.equals("carre")) {
                     depart = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
+                    surface.invalidate();
+                }
+                else if (outilActif.equals(("remplir"))) {
+                    couleurFondActive = couleurActive;
                     surface.invalidate();
                 }
 
@@ -233,6 +241,12 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (source == carre) {
                 outilActif = "carre";
+            }
+            else if (source == triangle) {
+                outilActif = "triangle";
+            }
+            else if (source == remplir) {
+                outilActif = "remplir";
             }
             else if (source == supprimer && objetsDessin.size() > 0)  {
                 objetsDessin.clear();
