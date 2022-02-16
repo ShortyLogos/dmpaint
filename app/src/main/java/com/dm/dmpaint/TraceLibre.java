@@ -1,7 +1,6 @@
 package com.dm.dmpaint;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Path;
 
 public class TraceLibre extends Dessin {

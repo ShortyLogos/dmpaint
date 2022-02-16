@@ -172,9 +172,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
+
             else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                depart = null;
-                arrivee = null;
 
                 if (outilActif.equals("traceLibre")) {
                     TraceLibre trait = new TraceLibre(couleurActive, largeurActive, traceLibre);
@@ -184,7 +183,15 @@ public class MainActivity extends AppCompatActivity {
                     displayActiveColor.setBackgroundColor(couleurActive);
                     outilActif = "traceLibre";
                 }
+                else if (outilActif.equals("carre")) {
+                    Carre carre = new Carre(couleurActive, depart.x, depart.y, arrivee.x, arrivee.y);
+                    objetsDessin.add(carre);
+                }
 
+                if (depart != null && arrivee != null) {
+                    depart = null;
+                    arrivee = null;
+                }
             }
 
             return true;
