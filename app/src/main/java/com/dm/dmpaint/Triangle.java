@@ -22,13 +22,6 @@ public class Triangle extends Forme {
         path.lineTo(getX1(), getY1());
         path.close();
 
-//        // 1er segment
-//        canvas.drawLine(getX1(), getY1(), getX2(), getY2(), crayon);
-//        // 2e segment
-//        canvas.drawLine(getX2(), getY2(), x3, y3, crayon);
-//        // 3e segment
-//        canvas.drawLine(x3, y3, getX1(), getY1(), crayon);
-
         canvas.drawPath(path, getCrayon());
     }
 }

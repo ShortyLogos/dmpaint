@@ -566,7 +566,7 @@
                     app:srcCompat="@drawable/rectangle" />
 
                 <ImageView
-                    android:id="@+id/triangleContour"
+                    android:id="@+id/triangle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

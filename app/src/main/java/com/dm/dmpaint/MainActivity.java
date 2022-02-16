@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                     else if (trianglePoints == 2) {
                         arrivee = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
                         surface.invalidate();
-                        trianglePoints = 0;
+                        trianglePoints++;
                     }
                 }
                 else if (outilActif.equals(("remplir"))) {
@@ -195,7 +195,12 @@ public class MainActivity extends AppCompatActivity {
                     arrivee = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
                     surface.invalidate();
                 }
-
+                else if (outilActif.equals("triangle")) {
+                    if (trianglePoints == 1) {
+                        intermediaire = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
+                        surface.invalidate();
+                    }
+                }
             }
 
             else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
@@ -212,8 +217,7 @@ public class MainActivity extends AppCompatActivity {
                         traceLibre = null;
                     }
                 }
-
-                if (outilActif.equals("pipette")) {
+                else if (outilActif.equals("pipette")) {
                     displayActiveColor.setBackgroundColor(couleurActive);
                     outilActif = "traceLibre";
                 }
@@ -225,10 +229,25 @@ public class MainActivity extends AppCompatActivity {
                     Carre carre = new Carre(couleurActive, depart.x, depart.y, arrivee.x, arrivee.y);
                     objetsDessin.add(carre);
                 }
-
+                else if (outilActif.equals("triangle")) {
+                    if (trianglePoints == 1) {
+                        trianglePoints++;
+                        surface.invalidate();
+                    }
+                    else if (trianglePoints == 3) {
+                        Triangle triangle = new Triangle(couleurActive, depart.x, depart.y,
+                                intermediaire.x, intermediaire.y, arrivee.x, arrivee.y);
+                        objetsDessin.add(triangle);
+                        trianglePoints = 0;
+                        depart = null;
+                        arrivee = null;
+                    }
+                }
                 if (depart != null && arrivee != null) {
-                    depart = null;
-                    arrivee = null;
+                    if (!outilActif.equals("triangle")) {
+                        depart = null;
+                        arrivee = null;
+                    }
                 }
             }
 
@@ -344,20 +363,43 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            if (depart != null && arrivee != null) {
-
-                if (outilActif.equals("cercle")) {
-                    int deltaX = Math.abs(arrivee.x - depart.x) * Math.abs(arrivee.x - depart.x);
-                    int deltaY = Math.abs(arrivee.y - depart.y) * Math.abs(arrivee.y - depart.y);
-                    float rayon = (float) Math.sqrt(deltaX + deltaY);
-                    canvas.drawCircle(depart.x, depart.y, rayon, crayonPlein);
+            if (outilActif.equals("cercle") | outilActif.equals("carre")) {
+                if (depart != null && arrivee != null) {
+                    if (outilActif.equals("cercle")) {
+                        int deltaX = Math.abs(arrivee.x - depart.x) * Math.abs(arrivee.x - depart.x);
+                        int deltaY = Math.abs(arrivee.y - depart.y) * Math.abs(arrivee.y - depart.y);
+                        float rayon = (float) Math.sqrt(deltaX + deltaY);
+                        canvas.drawCircle(depart.x, depart.y, rayon, crayonPlein);
+                    }
+                    else {
+                        canvas.drawRect(depart.x, depart.y, arrivee.x, arrivee.y, crayonPlein);
+                    }
                 }
-
-                else if (outilActif.equals("carre")) {
-                    canvas.drawRect(depart.x, depart.y, arrivee.x, arrivee.y, crayonPlein);
-                }
-
             }
+
+            else if (outilActif.equals("triangle")) {
+                if (intermediaire != null) {
+                    if (arrivee == null) {
+                        Path path = new Path();
+                        path.lineTo(intermediaire.x, intermediaire.y);
+                        path.lineTo(depart.x, depart.y);
+                        canvas.drawPath(path, crayonPlein);
+                    }
+                    else {
+                        Path path = new Path();
+                        path.setFillType(Path.FillType.EVEN_ODD);
+
+                        // On dessine les segments du triangle et on le referme
+                        path.lineTo(intermediaire.x, intermediaire.y);
+                        path.lineTo(arrivee.x, arrivee.y);
+                        path.lineTo(depart.x, depart.y);
+                        path.close();
+
+                        canvas.drawPath(path, crayonPlein);
+                    }
+                }
+            }
+
 
             surface.setBackgroundColor(couleurFondActive);
         }
