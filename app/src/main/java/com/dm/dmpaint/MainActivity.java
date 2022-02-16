@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,12 +12,9 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Trace;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,8 +22,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import com.google.android.material.button.MaterialButton;
 
 import java.util.Vector;
 
@@ -41,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout colorsPalette;
     LinearLayout tools;
     ImageView undo;
+    ImageView pinceau;
     ImageView pipette;
     ImageView cercle;
     ImageView carre;
@@ -72,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         displayActiveColor = findViewById(R.id.displayActiveColor);
         tools = findViewById(R.id.tools);
         undo = findViewById(R.id.undo);
+        pinceau = findViewById(R.id.pinceau);
         pipette = findViewById(R.id.pipette);
         cercle = findViewById(R.id.cercle);
         carre = findViewById(R.id.carre);
@@ -119,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         surface.setOnTouchListener(ecSurface);
         largeur.setOnSeekBarChangeListener(ecOutils);
         undo.setOnClickListener(ecOutils);
+        pinceau.setOnClickListener(ecOutils);
         pipette.setOnClickListener(ecOutils);
         cercle.setOnClickListener(ecOutils);
         carre.setOnClickListener(ecOutils);
@@ -127,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
 
     // 2.3 Définition des classes Écouteurs
     private class EcouteurCouleurs implements View.OnClickListener {
-
         @Override
         public void onClick(View source) {
             Button btn = (Button)source;
@@ -204,8 +200,14 @@ public class MainActivity extends AppCompatActivity {
                 surface.invalidate();
                 traceLibre = null;
             }
+            else if (source == pinceau) {
+                outilActif = "traceLibre";
+            }
             else if (source == pipette) {
                 outilActif = "pipette";
+            }
+            else if (source == cercle) {
+                outilActif = "cercle";
             }
             else if (source == carre) {
                 outilActif = "carre";
