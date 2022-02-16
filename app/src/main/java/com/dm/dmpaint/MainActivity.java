@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView pipette;
     ImageView cercle;
     ImageView carre;
+    ImageView info;
     ImageView supprimer;
 
     Vector<Dessin> objetsDessin = new Vector<Dessin>();
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         pipette = findViewById(R.id.pipette);
         cercle = findViewById(R.id.cercle);
         carre = findViewById(R.id.carre);
+        info = findViewById(R.id.info);
         supprimer = findViewById(R.id.supprimer);
 
         // 1. Mise en place de la surface de dessin
@@ -106,20 +109,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-//        for (int i = 0; i < tools.getChildCount(); i++) {
-//            if (colorsPalette.getChildAt(i) instanceof ImageView) {
-//                colorsPalette.getChildAt(i).setOnClickListener(ecOutils);
-//            }
-//        }
+        for (int i = 0; i < tools.getChildCount(); i++) {
+                tools.getChildAt(i).setOnClickListener(ecOutils);
+        }
 
         surface.setOnTouchListener(ecSurface);
         largeur.setOnSeekBarChangeListener(ecOutils);
         undo.setOnClickListener(ecOutils);
-        pinceau.setOnClickListener(ecOutils);
-        pipette.setOnClickListener(ecOutils);
-        cercle.setOnClickListener(ecOutils);
-        carre.setOnClickListener(ecOutils);
-        supprimer.setOnClickListener(ecOutils);
     }
 
     // 2.3 Définition des classes Écouteurs
@@ -230,6 +226,12 @@ public class MainActivity extends AppCompatActivity {
                 surface.invalidate();
                 traceLibre = null;
             }
+            else if (source == info) {
+                String msg = "Réalisé par Déric Marchand\n\n" +
+                        "Couleur personnalisée : cliquez sur l'afficheur de couleur active.\n\n" +
+                        "Prenez garde : la suppression d'une image à l'aide du bouton Supprimer est permanente. Le bouton Undo ne vous sauvera pas :)";
+                boiteDialogue(msg, "DMPaint v1.0");
+            }
         }
 
         @Override
@@ -304,6 +306,16 @@ public class MainActivity extends AppCompatActivity {
 
             return bitmapImage;
         }
+    }
+
+    public void boiteDialogue(String msg, String titre) {
+        AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+
+        b.setMessage(msg)
+                .setTitle(titre);
+
+        AlertDialog dialog = b.create();
+        dialog.show();
     }
 
 }
