@@ -58,11 +58,13 @@ public class MainActivity extends AppCompatActivity {
     Paint crayonPlein, crayonContour, crayonEfface;
     Point depart;
     Point arrivee;
+    Point intermediaire;
 
     int couleurActive = Color.BLACK;
     Integer couleurFondActive = Color.WHITE;
     int largeurActive;
     String outilActif = "traceLibre";
+    int trianglePoints = 0;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -156,9 +158,21 @@ public class MainActivity extends AppCompatActivity {
                     Bitmap bitmap = surface.getBitmapImage();
                     couleurActive = bitmap.getPixel((int)motionEvent.getX(), (int)motionEvent.getY());
                 }
-                else if (outilActif.equals("cercle") || outilActif.equals("carre")) {
+                else if (outilActif.equals("cercle") | outilActif.equals("carre")) {
                     depart = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
                     surface.invalidate();
+                }
+                else if (outilActif.equals("triangle")) {
+                    if (trianglePoints == 0) {
+                        depart = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
+                        surface.invalidate();
+                        trianglePoints++;
+                    }
+                    else if (trianglePoints == 2) {
+                        arrivee = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
+                        surface.invalidate();
+                        trianglePoints = 0;
+                    }
                 }
                 else if (outilActif.equals(("remplir"))) {
                     couleurFondActive = couleurActive;
