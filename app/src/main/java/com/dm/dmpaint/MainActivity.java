@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout tools;
     ImageView undo;
     ImageView pinceau;
+    ImageView efface;
     ImageView pipette;
     ImageView cercle;
     ImageView carre;
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 
-                if (outilActif.equals("traceLibre")) {
+                if (outilActif.equals("traceLibre") || outilActif.equals("efface")) {
                     traceLibre = new Path();
                     traceLibre.moveTo(motionEvent.getX(), motionEvent.getY());
                     surface.invalidate();
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
 
-                if (outilActif.equals("traceLibre")) {
+                if (outilActif.equals("traceLibre") || outilActif.equals("efface")) {
                     traceLibre.lineTo(motionEvent.getX(), motionEvent.getY());
                     surface.invalidate();
                 }
@@ -172,9 +173,16 @@ public class MainActivity extends AppCompatActivity {
             else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
 
                 if (traceLibre != null) {
-                    TraceLibre trait = new TraceLibre(couleurActive, largeurActive, traceLibre);
-                    objetsDessin.add(trait);
-                    traceLibre = null;
+                    if (outilActif.equals("traceLibre")) {
+                        TraceLibre trait = new TraceLibre(couleurActive, largeurActive, traceLibre);
+                        objetsDessin.add(trait);
+                        traceLibre = null;
+                    }
+                    else if (outilActif.equals("efface")) {
+                        Efface efface = new Efface(couleurFondActive, largeurActive, traceLibre);
+                        objetsDessin.add(efface);
+                        traceLibre = null;
+                    }
                 }
 
                 if (outilActif.equals("pipette")) {
@@ -211,6 +219,9 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (source == pinceau) {
                 outilActif = "traceLibre";
+            }
+            else if (source == efface) {
+                outilActif = "efface";
             }
             else if (source == pipette) {
                 outilActif = "pipette";
@@ -275,6 +286,10 @@ public class MainActivity extends AppCompatActivity {
             // Ici on dessinera
             if (objetsDessin.size() > 0) {
                 for (Dessin dessin : objetsDessin) {
+                    if (dessin instanceof Efface) {
+                        Paint efface = dessin.getCrayon();
+                        efface.setColor(couleurFondActive);
+                    }
                     dessin.dessiner(canvas);
                 }
             }
