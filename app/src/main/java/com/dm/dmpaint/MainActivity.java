@@ -175,11 +175,13 @@ public class MainActivity extends AppCompatActivity {
 
             else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
 
-                if (outilActif.equals("traceLibre")) {
+                if (traceLibre != null) {
                     TraceLibre trait = new TraceLibre(couleurActive, largeurActive, traceLibre);
                     objetsDessin.add(trait);
+                    traceLibre = null;
                 }
-                else if (outilActif.equals("pipette")) {
+
+                if (outilActif.equals("pipette")) {
                     displayActiveColor.setBackgroundColor(couleurActive);
                     outilActif = "traceLibre";
                 }
