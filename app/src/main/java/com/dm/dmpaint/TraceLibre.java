@@ -5,17 +5,11 @@ import android.graphics.Paint;
 import android.graphics.Path;
 
 public class TraceLibre extends Dessin {
-    private Path path;
-    private Paint crayon;
+        private Path path;
 
     public TraceLibre(int couleur, int largeur, Path path) {
-        super(couleur, largeur);
+        super(couleur, largeur, false);
         this.path = path;
-        this.crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        crayon.setColor(couleur);
-        crayon.setStrokeWidth(largeur);
-        crayon.setStyle(Paint.Style.STROKE);
     }
 
     public Path getPath() {
@@ -23,6 +17,6 @@ public class TraceLibre extends Dessin {
     }
 
     public void dessiner(Canvas canvas) {
-        canvas.drawPath(path, crayon);
+        canvas.drawPath(path, getCrayon());
     }
 }
