@@ -1,0 +1,46 @@
+LORSQU'ON MET UN POIDS À UN ÉLÉMENT, ON ASSIGNE 0 DP à UN WIDTH/HEIGHT SELON SON ORIENTATION (VOIR ANNEXE 7)
+
+TP2 :
+HorizontalLayoutScrolling > LinearLayout > éléments ImageView ()
+
+Le layout utilisé par la surface de dessin : ConstraintLayout. Mais on pourrait utiliser un LinearLayout.
+
+
+Slider = 
+
+
+Quand on dessine :
+Créer objet Barbeau
+ajoute des points avec le motion event, on les collectionne
+
+On store les barbeaux dans un Vector de Barbeaux pour pas que invalidate() les supprime
+On va voir besoin d'une boucle qui va chercher chacun des éléments du vecteur et le redessiner à chaque fois 
+
+Il faudra une classe Barbeau
+
+efface = comme le crayon, mais utilise la couleur de fond
+
+
+DESSINER UN CERCLE :
+down :  crée cecle
+move : change rayon du cercle
+up : terminer cercle
+
+Pipette : méthode qui permet de retrouver l'image qui est dessinée (méthode fournie dans les explications du TP)
+
+
+classe Cercle :
+rayon
+coordoonnées
+couleur --> stocker ça dans super classe
+largeur trait --> stocker ça dans super classe
+
+
+Voir Classe Path pour le tracé libre
+
+
+Utiliser des boutons pour les couleurs,
+aller chercher la couleur qu'il y a sur le bouton
+
+
+2-3 écouteurs (couleurs, surface de dessin, outils) 

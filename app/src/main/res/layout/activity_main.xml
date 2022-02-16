@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/topContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#DCF3F1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/displayActiveColor"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:background="#FFFFFF"
+            android:includeFontPadding="true"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="0dp"
+            app:strokeColor="#5F5F52"
+            app:strokeWidth="10dp" />
+
+        <HorizontalScrollView
+            android:id="@+id/colorsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#DCF3F1">
+
+            <LinearLayout
+                android:id="@+id/colorsPalette"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/color_black"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#000000"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_darkgrey"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#4E4E4E"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_grey"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#858585"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_lightgrey"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#B5B5B5"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_darkblue"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#236492"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_blue"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#258FB9"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_sky"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#95CDCD"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_teal"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#379D93 "
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_darkgreen"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#237853"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_green"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#92B768"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_sun"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#EAD96F"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_mustard"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#EAB24C"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_orange"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#D56A3C"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_darkred"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#A11430"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_lightred"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#DA294C"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_pink"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#ED5875"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_lavender"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#705180"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_grandmother"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#9B7B9D"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_lilac"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#CDA7CF"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/surfaceContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/largeurContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:background="#DCF3F1"
+        android:orientation="horizontal">
+
+        <SeekBar
+            android:id="@+id/largeur"
+            style="@style/Widget.AppCompat.SeekBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:fadeScrollbars="false"
+            android:indeterminate="false"
+            android:progress="10"
+            android:progressBackgroundTint="#505046"
+            android:progressTint="#5F5F52"
+            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:thumbTint="#5F5F52" />
+
+        <TextView
+            android:id="@+id/largeurTexte"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="#5F5F52"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.85"
+        android:background="#DCF3F1"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/undo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="10dp"
+            app:srcCompat="@drawable/undo" />
+
+        <HorizontalScrollView
+            android:id="@+id/toolsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/tools"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/traceLibre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/crayon" />
+
+                <ImageView
+                    android:id="@+id/efface"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/efface" />
+
+                <ImageView
+                    android:id="@+id/pipette"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/pipette" />
+
+                <ImageView
+                    android:id="@+id/cercle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/cercle" />
+
+                <ImageView
+                    android:id="@+id/carre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/rectangle" />
+
+                <ImageView
+                    android:id="@+id/triangleContour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/triangle" />
+
+                <ImageView
+                    android:id="@+id/remplir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/remplir" />
+
+                <ImageView
+                    android:id="@+id/sauvegarder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/enregistrer" />
+
+                <ImageView
+                    android:id="@+id/supprimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/supprimer" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+</LinearLayout>
