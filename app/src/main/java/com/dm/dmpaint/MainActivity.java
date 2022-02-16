@@ -185,6 +185,10 @@ public class MainActivity extends AppCompatActivity {
                     displayActiveColor.setBackgroundColor(couleurActive);
                     outilActif = "traceLibre";
                 }
+                else if (outilActif.equals("cercle")) {
+                    Cercle cercle = new Cercle(couleurActive, depart.x, depart.y, arrivee.x, arrivee.y);
+                    objetsDessin.add(cercle);
+                }
                 else if (outilActif.equals("carre")) {
                     Carre carre = new Carre(couleurActive, depart.x, depart.y, arrivee.x, arrivee.y);
                     objetsDessin.add(carre);
