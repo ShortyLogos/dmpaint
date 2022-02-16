@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     Path traceLibre;
 
-    Paint crayonPlein, crayonContour;
+    Paint crayonPlein, crayonContour, crayonEfface;
     Point depart;
     Point arrivee;
 
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         tools = findViewById(R.id.tools);
         undo = findViewById(R.id.undo);
         pinceau = findViewById(R.id.pinceau);
+        efface = findViewById(R.id.efface);
         pipette = findViewById(R.id.pipette);
         cercle = findViewById(R.id.cercle);
         carre = findViewById(R.id.carre);
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 
-                if (outilActif.equals("traceLibre") || outilActif.equals("efface")) {
+                if (outilActif.equals("traceLibre") | outilActif.equals("efface")) {
                     traceLibre = new Path();
                     traceLibre.moveTo(motionEvent.getX(), motionEvent.getY());
                     surface.invalidate();
@@ -154,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
 
-                if (outilActif.equals("traceLibre") || outilActif.equals("efface")) {
+                if (outilActif.equals("traceLibre") | outilActif.equals("efface")) {
                     traceLibre.lineTo(motionEvent.getX(), motionEvent.getY());
                     surface.invalidate();
                 }
@@ -222,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (source == efface) {
                 outilActif = "efface";
+                System.out.println(outilActif);
             }
             else if (source == pipette) {
                 outilActif = "pipette";
@@ -270,6 +272,8 @@ public class MainActivity extends AppCompatActivity {
             crayonPlein = new Paint(Paint.ANTI_ALIAS_FLAG);
             crayonContour = new Paint(Paint.ANTI_ALIAS_FLAG);
             crayonContour.setStyle(Paint.Style.STROKE);
+            crayonEfface = new Paint(Paint.ANTI_ALIAS_FLAG);
+            crayonEfface.setStyle(Paint.Style.STROKE);
         }
 
         // Redéfinition de la méthode onDraw de la classe interne Surface
@@ -278,10 +282,14 @@ public class MainActivity extends AppCompatActivity {
             super.onDraw(canvas);
 
             surface.setBackgroundColor(couleurFondActive);
+
             crayonContour.setColor(couleurActive);
             crayonPlein.setColor(couleurActive);
+            crayonEfface.setColor(couleurFondActive);
+
             crayonContour.setStrokeWidth(largeurActive);
             crayonPlein.setStrokeWidth(largeurActive);
+            crayonEfface.setStrokeWidth(largeurActive);
 
             // Ici on dessinera
             if (objetsDessin.size() > 0) {
@@ -295,7 +303,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (traceLibre != null) {
-                canvas.drawPath(traceLibre, crayonContour);
+                if (outilActif.equals("efface")) {
+                    canvas.drawPath(traceLibre, crayonEfface);
+                }
+                else {
+                    canvas.drawPath(traceLibre, crayonContour);
+                }
             }
 
             if (depart != null && arrivee != null) {
