@@ -312,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
             else if (source == info) {
                 String msg = "Réalisé par Déric Marchand\n\n" +
                         "Couleur personnalisée : cliquez sur l'afficheur de couleur active.\n\n" +
-                        "Prenez garde : la suppression d'une image à l'aide du bouton Supprimer est permanente. Le bouton Undo ne vous sauvera pas :)";
+                        "Prenez garde! La suppression d'une image à l'aide du bouton Supprimer est permanente.";
                 boiteDialogue(msg, "DMPaint v1.0", false);
             }
         }
