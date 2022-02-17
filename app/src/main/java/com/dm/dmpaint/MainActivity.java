@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     Vector<Dessin> objetsDessin = new Vector<Dessin>();
 
     Path traceLibre; // Path pour afficher le tracé avant qu'il soit ajouté au Vecteur d'objets Dessin
-    Path triangleCourant; // Similaire au traceLibre
     int trianglePoints = 0;
 
     Paint crayonPlein, crayonContour, crayonEfface;
@@ -63,11 +62,12 @@ public class MainActivity extends AppCompatActivity {
     Point arrivee;
     Point intermediaire;
 
-    int couleurActive = Color.BLACK;
-    Integer couleurFondActive = Color.WHITE;
+    int couleurActive;
+    Integer couleurFondActive;
     int largeurActive;
-    String outilActif = "traceLibre";
+    String outilActif;
 
+    Path triangleCourant = new Path();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -111,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
         largeur.setProgress(15);
         largeurActive = largeur.getProgress();
         largeurTexte.setText(String.valueOf(largeurActive));
+        couleurActive = Color.BLACK;
+        couleurFondActive = Color.WHITE;
+        outilActif = "traceLibre";
 
         // 2. Gestion des évènements
         // 2.1 Création des écouteurs
@@ -169,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (outilActif.equals("triangle")) {
                     if (trianglePoints == 0) {
-                        triangleCourant = new Path();
                         depart = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
                         trianglePoints++;
                     }
@@ -207,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else if (trianglePoints == 3) {
                         arrivee = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
+                        triangleCourant = new Path(); // Important d'initialiser sans cesse un nouvel objet Path pour éviter un effet fantôme lors du traçage du triangle
                         surface.invalidate();
                     }
 
@@ -248,12 +251,12 @@ public class MainActivity extends AppCompatActivity {
                         triangle = new Triangle(couleurActive, depart.x, depart.y,
                                 intermediaire.x, intermediaire.y, arrivee.x, arrivee.y);
                         objetsDessin.add(triangle);
+
                         surface.invalidate();
 
                         depart = null;
                         intermediaire = null;
                         arrivee = null;
-                        triangleCourant = null;
                         trianglePoints = 0;
                     }
                 }
@@ -284,7 +287,6 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (source == efface) {
                 outilActif = "efface";
-                System.out.println(outilActif);
             }
             else if (source == pipette) {
                 outilActif = "pipette";
@@ -359,6 +361,8 @@ public class MainActivity extends AppCompatActivity {
             crayonEfface.setStrokeWidth(largeurActive);
 
             // Ici on dessinera
+            // On dessine les objets du vecteur d'objets Dessin en premier pour s'assurer que les tracés
+            // libres et les formes se superposent aux dessins déjà réalisés.
             if (objetsDessin.size() > 0) {
                 for (Dessin dessin : objetsDessin) {
                     if (dessin instanceof Efface) {
@@ -377,8 +381,7 @@ public class MainActivity extends AppCompatActivity {
                     canvas.drawPath(traceLibre, crayonContour);
                 }
             }
-
-            if (outilActif.equals("cercle") | outilActif.equals("carre")) {
+            else if (outilActif.equals("cercle") | outilActif.equals("carre")) {
                 if (depart != null && arrivee != null) {
                     if (outilActif.equals("cercle")) {
                         int deltaX = Math.abs(arrivee.x - depart.x) * Math.abs(arrivee.x - depart.x);
@@ -393,20 +396,17 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (outilActif.equals("triangle")) {
                 if (intermediaire != null) {
-                    @SuppressLint("DrawAllocation") Path path = new Path();
                     if (arrivee == null) {
-                        path.moveTo(depart.x, depart.y);
-                        path.lineTo(intermediaire.x, intermediaire.y);
-                        canvas.drawPath(path, crayonContour);
+                        canvas.drawLine(depart.x, depart.y, intermediaire.x, intermediaire.y, crayonContour);
                     }
                     else {
                         // On dessine les segments du triangle et on le referme
-                        path.moveTo(depart.x, depart.y);
-                        path.lineTo(intermediaire.x, intermediaire.y);
-                        path.lineTo(arrivee.x, arrivee.y);
+                        triangleCourant.moveTo(depart.x, depart.y);
+                        triangleCourant.lineTo(intermediaire.x, intermediaire.y);
+                        triangleCourant.lineTo(arrivee.x, arrivee.y);
 
-                        path.close();
-                        canvas.drawPath(path, crayonPlein);
+                        triangleCourant.close();
+                        canvas.drawPath(triangleCourant, crayonPlein);
                     }
                 }
             }
