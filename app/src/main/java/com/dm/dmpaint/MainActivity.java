@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -53,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     Vector<Dessin> objetsDessin = new Vector<Dessin>();
 
-    Path traceLibre;
+    Path traceLibre; // Path pour afficher le tracé avant qu'il soit ajouté au Vecteur d'objets Dessin
+    Path triangleCourant; // Similaire au traceLibre
+    int trianglePoints = 0;
 
     Paint crayonPlein, crayonContour, crayonEfface;
     Point depart;
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     Integer couleurFondActive = Color.WHITE;
     int largeurActive;
     String outilActif = "traceLibre";
-    int trianglePoints = 0;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -143,6 +146,8 @@ public class MainActivity extends AppCompatActivity {
 
     private class EcouteurSurface implements View.OnTouchListener {
 
+        Triangle triangle; // Variable nécessaire dans la classe pour redessiner le sommet du triangle lorsqu'on déplace le doigt
+
         @Override
         public boolean onTouch(View source, MotionEvent motionEvent) {
 
@@ -164,8 +169,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (outilActif.equals("triangle")) {
                     if (trianglePoints == 0) {
+                        triangleCourant = new Path();
                         depart = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
-                        surface.invalidate();
                         trianglePoints++;
                     }
                     else if (trianglePoints == 2) {
@@ -200,6 +205,11 @@ public class MainActivity extends AppCompatActivity {
                         intermediaire = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
                         surface.invalidate();
                     }
+                    else if (trianglePoints == 3) {
+                        arrivee = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
+                        surface.invalidate();
+                    }
+
                 }
             }
 
@@ -235,12 +245,16 @@ public class MainActivity extends AppCompatActivity {
                         surface.invalidate();
                     }
                     else if (trianglePoints == 3) {
-                        Triangle triangle = new Triangle(couleurActive, depart.x, depart.y,
+                        triangle = new Triangle(couleurActive, depart.x, depart.y,
                                 intermediaire.x, intermediaire.y, arrivee.x, arrivee.y);
                         objetsDessin.add(triangle);
-                        trianglePoints = 0;
+                        surface.invalidate();
+
                         depart = null;
+                        intermediaire = null;
                         arrivee = null;
+                        triangleCourant = null;
+                        trianglePoints = 0;
                     }
                 }
                 if (depart != null && arrivee != null) {
@@ -324,6 +338,7 @@ public class MainActivity extends AppCompatActivity {
             // Initialisation dans le constructeur des objets Paint avec
             // lesquels on dessinera sur la surface de dessin.
             crayonPlein = new Paint(Paint.ANTI_ALIAS_FLAG);
+            crayonPlein.setStyle(Paint.Style.FILL);
             crayonContour = new Paint(Paint.ANTI_ALIAS_FLAG);
             crayonContour.setStyle(Paint.Style.STROKE);
             crayonEfface = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -376,25 +391,21 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-
             else if (outilActif.equals("triangle")) {
                 if (intermediaire != null) {
+                    @SuppressLint("DrawAllocation") Path path = new Path();
                     if (arrivee == null) {
-                        Path path = new Path();
+                        path.moveTo(depart.x, depart.y);
                         path.lineTo(intermediaire.x, intermediaire.y);
-                        path.lineTo(depart.x, depart.y);
-                        canvas.drawPath(path, crayonPlein);
+                        canvas.drawPath(path, crayonContour);
                     }
                     else {
-                        Path path = new Path();
-                        path.setFillType(Path.FillType.EVEN_ODD);
-
                         // On dessine les segments du triangle et on le referme
+                        path.moveTo(depart.x, depart.y);
                         path.lineTo(intermediaire.x, intermediaire.y);
                         path.lineTo(arrivee.x, arrivee.y);
-                        path.lineTo(depart.x, depart.y);
-                        path.close();
 
+                        path.close();
                         canvas.drawPath(path, crayonPlein);
                     }
                 }

@@ -17,9 +17,10 @@ public class Triangle extends Forme {
         path.setFillType(Path.FillType.EVEN_ODD);
 
         // On dessine les segments du triangle et on le referme
+        path.moveTo(getX1(), getY1());
         path.lineTo(getX2(), getY2());
         path.lineTo(x3, y3);
-        path.lineTo(getX1(), getY1());
+
         path.close();
 
         canvas.drawPath(path, getCrayon());
