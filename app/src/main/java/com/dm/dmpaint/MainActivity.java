@@ -15,12 +15,15 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaScannerConnection;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -53,24 +56,28 @@ public class MainActivity extends AppCompatActivity {
     ImageView carre;
     ImageView triangle;
     ImageView remplir;
+    ImageView sauvegarder;
     ImageView info;
     ImageView supprimer;
 
     Vector<Dessin> objetsDessin = new Vector<Dessin>();
 
-    Path traceLibre; // Path pour afficher le tracé avant qu'il soit ajouté au Vecteur d'objets Dessin
-    int trianglePoints = 0;
-
     Paint crayonPlein, crayonContour, crayonEfface;
     Point depart;
     Point arrivee;
-    Point intermediaire;
+    Point intermediaire; // Ce point est seulement requis pour le traçage d'un triangle
 
     int couleurActive;
     Integer couleurFondActive;
     int largeurActive;
     String outilActif;
+    String nomImage;
 
+    Path traceLibre; // Path pour afficher le tracé avant qu'il soit ajouté au Vecteur d'objets Dessin
+
+    // Cette variable permet de compter le nombre de points dessinés afin d'ajouter le triangle
+    // dessiné au Vecteur d'objets Dessin au bon moment.
+    int trianglePoints = 0;
     Path triangleCourant = new Path();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -93,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         carre = findViewById(R.id.carre);
         triangle = findViewById(R.id.triangle);
         remplir = findViewById(R.id.remplir);
+        sauvegarder = findViewById(R.id.sauvegarder);
         info = findViewById(R.id.info);
         supprimer = findViewById(R.id.supprimer);
 
@@ -126,12 +134,14 @@ public class MainActivity extends AppCompatActivity {
         EcouteurOutils ecOutils = new EcouteurOutils();
 
         // 2.2 Inscriptions des sources aux écouteurs
+        // On inscrit tous les boutons utilisés pour la sélection de couleurs
         for (int i = 0; i < colorsPalette.getChildCount(); i++) {
             if (colorsPalette.getChildAt(i) instanceof Button) {
                 colorsPalette.getChildAt(i).setOnClickListener(ecCouleurs);
             }
         }
 
+        // On inscrit tous les boutons disponibles dans la barre d'outils
         for (int i = 0; i < tools.getChildCount(); i++) {
                 tools.getChildAt(i).setOnClickListener(ecOutils);
         }
@@ -152,9 +162,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class EcouteurSurface implements View.OnTouchListener {
-
         Triangle triangle; // Variable nécessaire dans la classe pour redessiner le sommet du triangle lorsqu'on déplace le doigt
-
         @Override
         public boolean onTouch(View source, MotionEvent motionEvent) {
 
@@ -304,20 +312,25 @@ public class MainActivity extends AppCompatActivity {
             else if (source == triangle) {
                 outilActif = "triangle";
             }
+            else if (source == sauvegarder) {
+                String msg = "Sauvegarder votre image?";
+                // Appel de la fonction sauvegarderImage() via la boîte de dialogue.
+                boiteDialogue(msg, "Sauvegarder votre image?", false, true);
+            }
             else if (source == remplir) {
                 outilActif = "remplir";
             }
             else if (source == supprimer)  {
                 String msg = "Vous vous apprêtez à supprimer votre image. Cette action est" +
                         " irréversible.";
-                boiteDialogue(msg, "Supprimer votre image?", true);
                 // Appel de la fonction supprimerSurface() via la boîte de dialogue.
+                boiteDialogue(msg, "Supprimer votre image?", true, false);
             }
             else if (source == info) {
                 String msg = "Réalisé par Déric Marchand\n\n" +
                         "Couleur personnalisée : cliquez sur l'afficheur de couleur active.\n\n" +
                         "Prenez garde! La suppression d'une image à l'aide du bouton Supprimer est permanente.";
-                boiteDialogue(msg, "DMPaint v1.0", false);
+                boiteDialogue(msg, "DMPaint v1.0", false, false);
             }
         }
 
@@ -438,51 +451,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void sauvegarderImage() {
-        int count = 0;
-        File sdDirectory = this.getExternalCacheDir();
-        File subDirectory = new File(sdDirectory.toString() + "/Paint");
+    public void sauvegarderImage(Context context, String filename) throws IOException {
+        Bitmap image = surface.getBitmapImage();
+        File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File file = new File(directory, filename + ".png");
 
-        if (subDirectory.exists()) {
-            File[] images = subDirectory.listFiles();
-            for (File image : images) {
-                if (image.getName().endsWith(".jpg") || image.getName().endsWith(".png")) {
-                    count++;
-                }
-            }
-        } else {
-            subDirectory.mkdirs();
-        }
+        FileOutputStream outputStream = new FileOutputStream(file);
+        image.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
 
-        if (subDirectory.exists()) {
-            File image = new File(subDirectory, "/drawing_" + (count + 1) + ".png");
-            FileOutputStream fileOutputStream;
-            try {
-                fileOutputStream = new FileOutputStream(image);
-                Bitmap img_temporaire = surface.getBitmapImage();
-                img_temporaire.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
-                fileOutputStream.flush();
-                fileOutputStream.close();
-                Toast.makeText(this, "Image sauvegardée.", Toast.LENGTH_LONG).show();
-            } catch (FileNotFoundException fnf) {
-                fnf.printStackTrace();
-                Toast.makeText(this, "Image non-disponible.", Toast.LENGTH_LONG).show();
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-                Toast.makeText(this, "Impossible de sauvegarder l'image.", Toast.LENGTH_LONG).show();
-            }
+        outputStream.getFD().sync();
+        outputStream.close();
 
-        }
+        MediaScannerConnection.scanFile(context, new String[] {file.getAbsolutePath()}, null, null);
     }
 
-    public void boiteDialogue(String msg, String titre, boolean boutons) {
+    public void boiteDialogue(String msg, String titre, boolean supprimer, boolean sauvegarder) {
         AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
 
         b.setMessage(msg);
         b.setTitle(titre);
 
-        // Boutons requis par l'outil Supprimer
-        if (boutons) {
+        // Pour supprimer l'image au complet
+        if (supprimer) {
             b.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -492,6 +482,34 @@ public class MainActivity extends AppCompatActivity {
                             "Image supprimée.", Toast.LENGTH_SHORT).show();
                 }
             });
+            b.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(MainActivity.this,
+                            "Action annulée.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        // Pour sauvegarder l'image dans le dossier Pictures de l'appareil
+        else if (sauvegarder) {
+            final EditText saisie = new EditText(this);
+            b.setView(saisie);
+
+            b.setPositiveButton("Sauvegarder", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    nomImage = saisie.getText().toString();
+                    try {
+                        sauvegarderImage(MainActivity.this, nomImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(MainActivity.this,
+                            "Image sauvegardée.", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
             b.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
