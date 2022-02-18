@@ -30,6 +30,10 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
@@ -431,6 +435,43 @@ public class MainActivity extends AppCompatActivity {
             couleurFondActive = Color.WHITE;
             surface.invalidate();
             traceLibre = null;
+        }
+    }
+
+    public void sauvegarderImage() {
+        int count = 0;
+        File sdDirectory = this.getExternalCacheDir();
+        File subDirectory = new File(sdDirectory.toString() + "/Paint");
+
+        if (subDirectory.exists()) {
+            File[] images = subDirectory.listFiles();
+            for (File image : images) {
+                if (image.getName().endsWith(".jpg") || image.getName().endsWith(".png")) {
+                    count++;
+                }
+            }
+        } else {
+            subDirectory.mkdirs();
+        }
+
+        if (subDirectory.exists()) {
+            File image = new File(subDirectory, "/drawing_" + (count + 1) + ".png");
+            FileOutputStream fileOutputStream;
+            try {
+                fileOutputStream = new FileOutputStream(image);
+                Bitmap img_temporaire = surface.getBitmapImage();
+                img_temporaire.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+                fileOutputStream.flush();
+                fileOutputStream.close();
+                Toast.makeText(this, "Image sauvegardée.", Toast.LENGTH_LONG).show();
+            } catch (FileNotFoundException fnf) {
+                fnf.printStackTrace();
+                Toast.makeText(this, "Image non-disponible.", Toast.LENGTH_LONG).show();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+                Toast.makeText(this, "Impossible de sauvegarder l'image.", Toast.LENGTH_LONG).show();
+            }
+
         }
     }
 
