@@ -6,8 +6,8 @@ import android.graphics.Path;
 public class TraceLibre extends Dessin {
         private Path path;
 
-    public TraceLibre(int couleur, int largeur, Path path) {
-        super(couleur, largeur, false);
+    public TraceLibre(int couleur, int largeur, int opacite, Path path) {
+        super(couleur, largeur, opacite, false);
         this.path = path;
     }
 

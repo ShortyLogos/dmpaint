@@ -7,12 +7,14 @@ import android.graphics.Path;
 public abstract class Dessin {
     private int couleur;
     private int largeur;
+    private int opacite;
     private boolean plein;
     private Paint crayon;
 
-    public Dessin (int couleur, int largeur, boolean plein) {
+    public Dessin (int couleur, int largeur, int opacite, boolean plein) {
         this.couleur = couleur;
         this.largeur = largeur;
+        this.opacite = opacite;
         this.plein = plein;
         this.crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
 
@@ -25,6 +27,7 @@ public abstract class Dessin {
 
         crayon.setColor(couleur);
         crayon.setStrokeWidth(largeur);
+        crayon.setAlpha(opacite);
     }
 
     public void dessiner(Canvas canvas) {

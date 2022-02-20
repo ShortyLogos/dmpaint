@@ -31,6 +31,8 @@
             android:paddingTop="0dp"
             android:paddingRight="0dp"
             android:paddingBottom="0dp"
+            android:shadowDx="50"
+            android:transformPivotX="50dp"
             app:strokeColor="#5F5F52"
             app:strokeWidth="10dp" />
 
@@ -138,6 +140,27 @@
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="#DADADA"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_white"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#FFFFFF"
                     android:includeFontPadding="true"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
@@ -603,6 +626,50 @@
         android:layout_weight="9">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/opaciteContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:background="#DCF3F1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/opaciteIndicateur"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="O"
+            android:textColor="#5F5F52"
+            android:textSize="16sp" />
+
+        <SeekBar
+            android:id="@+id/opacite"
+            style="@style/Widget.AppCompat.SeekBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:fadeScrollbars="false"
+            android:indeterminate="false"
+            android:progress="10"
+            android:progressBackgroundTint="#505046"
+            android:progressTint="#5F5F52"
+            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:thumbTint="#5F5F52" />
+
+        <TextView
+            android:id="@+id/opaciteTexte"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="#5F5F52"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/largeurContainer"

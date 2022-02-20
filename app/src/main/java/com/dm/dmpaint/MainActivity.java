@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
     Surface surface;
     ConstraintLayout surfaceContainer;
+    SeekBar opacite;
+    TextView opaciteTexte;
     SeekBar largeur;
     TextView largeurTexte;
     Button displayActiveColor;
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     int couleurActive;
     Integer couleurFondActive;
     int largeurActive;
+    int opaciteActive;
     String outilActif;
     String nomImage;
 
@@ -87,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         surfaceContainer = findViewById(R.id.surfaceContainer);
+        opacite = findViewById(R.id.opacite);
+        opaciteTexte = findViewById(R.id.opaciteTexte);
         largeur = findViewById(R.id.largeur);
         largeurTexte = findViewById(R.id.largeurTexte);
         colorsPalette = findViewById(R.id.colorsPalette);
@@ -117,14 +122,20 @@ public class MainActivity extends AppCompatActivity {
         surfaceContainer.addView(surface);
 
         // Paramètres par défaut lors de l'ouverture de l'app
-        displayActiveColor.setBackgroundColor(couleurActive);
         largeur.setMin(1);
         largeur.setMax(125);
         largeur.setProgress(15);
         largeurActive = largeur.getProgress();
         largeurTexte.setText(String.valueOf(largeurActive));
+        opacite.setMin(1);
+        opacite.setMax(255);
+        opacite.setProgress(255);
+        opaciteActive = opacite.getProgress();
+        opaciteTexte.setText((String.valueOf(opaciteActive)));
         couleurActive = Color.BLACK;
         couleurFondActive = Color.WHITE;
+        displayActiveColor.setBackgroundColor(couleurActive);
+        opaciteActive = 255;
         outilActif = "traceLibre";
 
         // 2. Gestion des évènements
@@ -148,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
         surface.setOnTouchListener(ecSurface);
         largeur.setOnSeekBarChangeListener(ecOutils);
+        opacite.setOnSeekBarChangeListener(ecOutils);
         undo.setOnClickListener(ecOutils);
     }
 
@@ -232,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (traceLibre != null) {
                     if (outilActif.equals("traceLibre")) {
-                        TraceLibre trait = new TraceLibre(couleurActive, largeurActive, traceLibre);
+                        TraceLibre trait = new TraceLibre(couleurActive, largeurActive, opaciteActive, traceLibre);
                         objetsDessin.add(trait);
                         traceLibre = null;
                     }
@@ -247,11 +259,11 @@ public class MainActivity extends AppCompatActivity {
                     outilActif = "traceLibre";
                 }
                 else if (outilActif.equals("cercle")) {
-                    Cercle cercle = new Cercle(couleurActive, depart.x, depart.y, arrivee.x, arrivee.y);
+                    Cercle cercle = new Cercle(couleurActive, opaciteActive, depart.x, depart.y, arrivee.x, arrivee.y);
                     objetsDessin.add(cercle);
                 }
                 else if (outilActif.equals("carre")) {
-                    Carre carre = new Carre(couleurActive, depart.x, depart.y, arrivee.x, arrivee.y);
+                    Carre carre = new Carre(couleurActive, opaciteActive, depart.x, depart.y, arrivee.x, arrivee.y);
                     objetsDessin.add(carre);
                 }
                 else if (outilActif.equals("triangle")) {
@@ -260,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
                         surface.invalidate();
                     }
                     else if (trianglePoints == 3) {
-                        triangle = new Triangle(couleurActive, depart.x, depart.y,
+                        triangle = new Triangle(couleurActive, opaciteActive, depart.x, depart.y,
                                 intermediaire.x, intermediaire.y, arrivee.x, arrivee.y);
                         objetsDessin.add(triangle);
 
@@ -313,10 +325,9 @@ public class MainActivity extends AppCompatActivity {
                 outilActif = "triangle";
             }
             else if (source == sauvegarder) {
-                String msg = "Veuillez donner un nom à votre réalisation. Celle-ci sera sauvegardée dans" +
-                        "le dossier Pictures de votre appareil.";
+                String msg = "Veuillez donner un nom à votre réalisation. Celle-ci sera sauvegardée au format PNG.";
                 // Appel de la fonction sauvegarderImage() via la boîte de dialogue.
-                boiteDialogue(msg, "Sauvegarder votre image?", false, true);
+                boiteDialogue(msg, "Sauvegarder", false, true);
             }
             else if (source == remplir) {
                 outilActif = "remplir";
@@ -325,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
                 String msg = "Vous vous apprêtez à supprimer votre image. Cette action est" +
                         " irréversible.";
                 // Appel de la fonction supprimerSurface() via la boîte de dialogue.
-                boiteDialogue(msg, "Supprimer votre image?", true, false);
+                boiteDialogue(msg, "Supprimer", true, false);
             }
             else if (source == info) {
                 String msg = "Réalisé par Déric Marchand\n\n" +
@@ -340,6 +351,10 @@ public class MainActivity extends AppCompatActivity {
             if (seekBar == largeur) {
                 largeurActive = progress;
                 largeurTexte.setText(String.valueOf(largeurActive));
+            }
+            else if (seekBar == opacite) {
+                opaciteActive = progress;
+                opaciteTexte.setText(String.valueOf(opaciteActive));
             }
         }
 
@@ -377,6 +392,10 @@ public class MainActivity extends AppCompatActivity {
             crayonContour.setStrokeWidth(largeurActive);
             crayonPlein.setStrokeWidth(largeurActive);
             crayonEfface.setStrokeWidth(largeurActive);
+
+            crayonContour.setAlpha(opaciteActive);
+            crayonPlein.setAlpha(opaciteActive);
+            crayonEfface.setAlpha(opaciteActive);
 
             // Ici on dessinera
             // On dessine les objets du vecteur d'objets Dessin en premier pour s'assurer que les tracés
@@ -428,7 +447,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-
 
             surface.setBackgroundColor(couleurFondActive);
         }
@@ -510,7 +528,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-
             b.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

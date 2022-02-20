@@ -5,8 +5,8 @@ import android.graphics.Canvas;
 public abstract class Forme extends Dessin {
     private int x1, x2, y1, y2;
 
-    public Forme(int couleur, int x1, int y1, int x2, int y2) {
-        super(couleur, 0, true);
+    public Forme(int couleur, int opacite, int x1, int y1, int x2, int y2) {
+        super(couleur, 0, opacite,true);
         this.x1 = x1;
         this.x2 = x2;
         this.y1 = y1;

@@ -6,8 +6,8 @@ import android.graphics.Path;
 public class Triangle extends Forme {
     int x3, y3;
 
-    public Triangle(int couleur, int x1, int y1, int x2, int y2, int x3, int y3) {
-        super(couleur, x1, y1, x2, y2);
+    public Triangle(int couleur, int opacite, int x1, int y1, int x2, int y2, int x3, int y3) {
+        super(couleur, opacite, x1, y1, x2, y2);
         this.x3 = x3;
         this.y3 = y3;
     }
