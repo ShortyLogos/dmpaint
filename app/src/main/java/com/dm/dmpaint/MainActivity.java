@@ -424,9 +424,10 @@ public class MainActivity extends AppCompatActivity {
             crayonPlein.setStrokeWidth(largeurActive);
             crayonEfface.setStrokeWidth(largeurActive);
 
+            // On s'assure de ne pas modifier l'opacité de l'outil Efface
+            // car il doit demeurer à 255 en tous temps.
             crayonContour.setAlpha(opaciteActive);
             crayonPlein.setAlpha(opaciteActive);
-            crayonEfface.setAlpha(opaciteActive);
 
             // On dessine les objets du vecteur d'objets Dessin en premier pour s'assurer que les tracés
             // libres et les formes se superposent aux dessins déjà réalisés.
