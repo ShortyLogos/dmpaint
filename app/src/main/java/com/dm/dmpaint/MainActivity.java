@@ -503,25 +503,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void sauvegarderImage(Context context, String filename) throws IOException {
+    public void sauvegarderImage(Context context, String nomFichier) throws IOException {
         Bitmap image = surface.getBitmapImage();
-        File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File file = new File(directory, filename + ".png");
+        File repertoire = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File fichier = new File(repertoire, nomFichier + ".png");
 
-        FileOutputStream outputStream = new FileOutputStream(file);
+        FileOutputStream outputStream = new FileOutputStream(fichier);
         image.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
 
         outputStream.getFD().sync();
         outputStream.close();
 
-        MediaScannerConnection.scanFile(context, new String[] {file.getAbsolutePath()}, null, null);
+        MediaScannerConnection.scanFile(context, new String[] {fichier.getAbsolutePath()}, null, null);
     }
 
     public void boiteDialogueCouleur() {
+        // Color picker à partir d'une librairie Github. L'objet AmbilWarnaDialog est nommé en l'honneur
+        // de l'auteur de cette librairie.
         AmbilWarnaDialog b = new AmbilWarnaDialog(MainActivity.this, couleurActive, false, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override
-            public void onOk(AmbilWarnaDialog dialog, int color) {
-                couleurActive = color;
+            public void onOk(AmbilWarnaDialog dialog, int couleur) {
+                couleurActive = couleur;
                 afficheCouleurActive.setBackgroundColor(couleurActive);
             }
 
