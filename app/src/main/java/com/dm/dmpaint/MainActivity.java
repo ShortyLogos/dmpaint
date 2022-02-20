@@ -40,6 +40,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Vector;
 
+import yuku.ambilwarna.AmbilWarnaDialog;
+
 public class MainActivity extends AppCompatActivity {
 
     Surface surface;
@@ -159,9 +161,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         surface.setOnTouchListener(ecSurface);
-        afficheCouleurActive.setOnClickListener(ecOutils);
         largeur.setOnSeekBarChangeListener(ecOutils);
         opacite.setOnSeekBarChangeListener(ecOutils);
+        afficheCouleurActive.setOnClickListener(ecCouleurs);
         undo.setOnClickListener(ecOutils);
     }
 
@@ -172,6 +174,13 @@ public class MainActivity extends AppCompatActivity {
             Button btn = (Button)source;
             couleurActive = ((ColorDrawable)btn.getBackground()).getColor();
             afficheCouleurActive.setBackgroundColor(couleurActive);
+
+            if (source == afficheCouleurActive) {
+                // Appel de la fonction pour sélectionner une couleur personnalisée.
+                // Possible grâce à une librairie trouvée sur Github : https://github.com/yukuku/ambilwarna
+                boiteDialogueCouleur();
+            }
+
         }
     }
 
@@ -506,29 +515,20 @@ public class MainActivity extends AppCompatActivity {
 
         MediaScannerConnection.scanFile(context, new String[] {file.getAbsolutePath()}, null, null);
     }
-//
-//    public void couleurPersonnelle() {
-//        ColorPickerDialog.builder cp = new ColorPickerDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-//                .setTitle("ColorPicker Dialog")
-//                .setPreferenceName("MyColorPickerDialog")
-//                .setPositiveButton(getString(R.string.confirm),
-//                        new ColorEnvelopeListener() {
-//                            @Override
-//                            public void onColorSelected(ColorEnvelope envelope, boolean fromUser) {
-//                                setLayoutColor(envelope);
-//                            }
-//                        })
-//        setNegativeButton(getString(R.string.cancel),
-//                new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialogInterface.dismiss();
-//                    }
-//                })
-//                .attachAlphaSlideBar(true) // default is true. If false, do not show the AlphaSlideBar.
-//                .attachBrightnessSlideBar(true)  // default is true. If false, do not show the BrightnessSlideBar.
-//                .show();
-//    }
+
+    public void boiteDialogueCouleur() {
+        AmbilWarnaDialog b = new AmbilWarnaDialog(MainActivity.this, couleurActive, false, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+                couleurActive = color;
+                afficheCouleurActive.setBackgroundColor(couleurActive);
+            }
+
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) { }
+        });
+        b.show();
+    }
 
     public void boiteDialogue(String msg, String titre, boolean supprimer, boolean sauvegarder) {
         AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
