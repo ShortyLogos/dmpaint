@@ -131,6 +131,27 @@
                     app:strokeWidth="2dp" />
 
                 <Button
+                    android:id="@+id/color_pale"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#DADADA"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
                     android:id="@+id/color_darkblue"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
@@ -221,7 +242,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="#237853"
+                    android:background="#1C632B"
                     android:includeFontPadding="true"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
@@ -242,6 +263,27 @@
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
+                    android:background="#4f9140"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_lightgreen"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
                     android:background="#92B768"
                     android:includeFontPadding="true"
                     android:insetTop="0dp"
@@ -257,13 +299,34 @@
                     app:strokeWidth="2dp" />
 
                 <Button
-                    android:id="@+id/color_sun"
+                    android:id="@+id/color_skin"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="#EAD96F"
+                    android:background="#E8CA8E"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_yellow"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#F3DB07"
                     android:includeFontPadding="true"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
@@ -284,7 +347,28 @@
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="#EAB24C"
+                    android:background="#FFD024"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_lightorange"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#FFB124"
                     android:includeFontPadding="true"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
@@ -326,7 +410,28 @@
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="#A11430"
+                    android:background="#A11414"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_red"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#CA2525"
                     android:includeFontPadding="true"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
@@ -369,6 +474,48 @@
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="#ED5875"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_lightpink"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#ED869A"
+                    android:includeFontPadding="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    app:cornerRadius="5dp"
+                    app:iconPadding="0dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/color_night"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#4B2D5A"
                     android:includeFontPadding="true"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
@@ -465,6 +612,16 @@
         android:background="#DCF3F1"
         android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/largeurIndicateur"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="L"
+            android:textColor="#5F5F52"
+            android:textSize="16sp" />
+
         <SeekBar
             android:id="@+id/largeur"
             style="@style/Widget.AppCompat.SeekBar"
@@ -488,6 +645,7 @@
             android:text="0"
             android:textColor="#5F5F52"
             android:textSize="16sp" />
+
     </LinearLayout>
 
     <LinearLayout

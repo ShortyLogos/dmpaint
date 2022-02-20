@@ -313,7 +313,8 @@ public class MainActivity extends AppCompatActivity {
                 outilActif = "triangle";
             }
             else if (source == sauvegarder) {
-                String msg = "Sauvegarder votre image?";
+                String msg = "Veuillez donner un nom à votre réalisation. Celle-ci sera sauvegardée dans" +
+                        "le dossier Pictures de votre appareil.";
                 // Appel de la fonction sauvegarderImage() via la boîte de dialogue.
                 boiteDialogue(msg, "Sauvegarder votre image?", false, true);
             }
