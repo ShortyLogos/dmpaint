@@ -2,9 +2,9 @@ package com.dm.dmpaint;
 
 import android.graphics.Canvas;
 
-public class Carre extends Forme {
+public class Rectangle extends Forme {
 
-    public Carre(int couleur, int opacite, int x1, int y1, int x2, int y2) {
+    public Rectangle(int couleur, int opacite, int x1, int y1, int x2, int y2) {
         super(couleur, opacite, x1, y1, x2, y2);
     }
 

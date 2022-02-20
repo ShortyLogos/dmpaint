@@ -19,6 +19,7 @@ import android.media.MediaScannerConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     TextView opaciteTexte;
     SeekBar largeur;
     TextView largeurTexte;
-    Button displayActiveColor;
+    Button afficheCouleurActive;
     LinearLayout colorsPalette;
     LinearLayout tools;
     ImageView undo;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView efface;
     ImageView pipette;
     ImageView cercle;
-    ImageView carre;
+    ImageView rectangle;
     ImageView triangle;
     ImageView remplir;
     ImageView sauvegarder;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     Path traceLibre; // Path pour afficher le tracé avant qu'il soit ajouté au Vecteur d'objets Dessin
 
     // Cette variable permet de compter le nombre de points dessinés afin d'ajouter le triangle
-    // dessiné au Vecteur d'objets Dessin au bon moment.
+    // dessiné au Vecteur d'objets Dessin au moment opportun
     int trianglePoints = 0;
     Path triangleCourant = new Path();
 
@@ -95,14 +96,14 @@ public class MainActivity extends AppCompatActivity {
         largeur = findViewById(R.id.largeur);
         largeurTexte = findViewById(R.id.largeurTexte);
         colorsPalette = findViewById(R.id.colorsPalette);
-        displayActiveColor = findViewById(R.id.displayActiveColor);
+        afficheCouleurActive = findViewById(R.id.afficheCouleurActive);
         tools = findViewById(R.id.tools);
         undo = findViewById(R.id.undo);
         pinceau = findViewById(R.id.pinceau);
         efface = findViewById(R.id.efface);
         pipette = findViewById(R.id.pipette);
         cercle = findViewById(R.id.cercle);
-        carre = findViewById(R.id.carre);
+        rectangle = findViewById(R.id.rectangle);
         triangle = findViewById(R.id.triangle);
         remplir = findViewById(R.id.remplir);
         sauvegarder = findViewById(R.id.sauvegarder);
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         opaciteTexte.setText((String.valueOf(opaciteActive)));
         couleurActive = Color.BLACK;
         couleurFondActive = Color.WHITE;
-        displayActiveColor.setBackgroundColor(couleurActive);
+        afficheCouleurActive.setBackgroundColor(couleurActive);
         opaciteActive = 255;
         outilActif = "traceLibre";
 
@@ -158,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         surface.setOnTouchListener(ecSurface);
+        afficheCouleurActive.setOnClickListener(ecOutils);
         largeur.setOnSeekBarChangeListener(ecOutils);
         opacite.setOnSeekBarChangeListener(ecOutils);
         undo.setOnClickListener(ecOutils);
@@ -169,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View source) {
             Button btn = (Button)source;
             couleurActive = ((ColorDrawable)btn.getBackground()).getColor();
-            displayActiveColor.setBackgroundColor(couleurActive);
+            afficheCouleurActive.setBackgroundColor(couleurActive);
         }
     }
 
@@ -177,7 +179,8 @@ public class MainActivity extends AppCompatActivity {
         Triangle triangle; // Variable nécessaire dans la classe pour redessiner le sommet du triangle lorsqu'on déplace le doigt
         @Override
         public boolean onTouch(View source, MotionEvent motionEvent) {
-
+            // Dans cet écouteur, on gère le dessin en temps réel + le moment où un dessin
+            // est ajouté au vecteur d'objets Dessin
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 
                 if (outilActif.equals("traceLibre") | outilActif.equals("efface")) {
@@ -190,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                     Bitmap bitmap = surface.getBitmapImage();
                     couleurActive = bitmap.getPixel((int)motionEvent.getX(), (int)motionEvent.getY());
                 }
-                else if (outilActif.equals("cercle") | outilActif.equals("carre")) {
+                else if (outilActif.equals("cercle") | outilActif.equals("rectangle")) {
                     depart = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
                     surface.invalidate();
                 }
@@ -222,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                     Bitmap bitmap = surface.getBitmapImage();
                     couleurActive = bitmap.getPixel((int)motionEvent.getX(), (int)motionEvent.getY());
                 }
-                else if (outilActif.equals("cercle") || outilActif.equals("carre")) {
+                else if (outilActif.equals("cercle") || outilActif.equals("rectangle")) {
                     arrivee = new Point((int)motionEvent.getX(), (int)motionEvent.getY());
                     surface.invalidate();
                 }
@@ -255,16 +258,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 else if (outilActif.equals("pipette")) {
-                    displayActiveColor.setBackgroundColor(couleurActive);
+                    afficheCouleurActive.setBackgroundColor(couleurActive);
                     outilActif = "traceLibre";
                 }
                 else if (outilActif.equals("cercle")) {
                     Cercle cercle = new Cercle(couleurActive, opaciteActive, depart.x, depart.y, arrivee.x, arrivee.y);
                     objetsDessin.add(cercle);
                 }
-                else if (outilActif.equals("carre")) {
-                    Carre carre = new Carre(couleurActive, opaciteActive, depart.x, depart.y, arrivee.x, arrivee.y);
-                    objetsDessin.add(carre);
+                else if (outilActif.equals("rectangle")) {
+                    Rectangle rectangle = new Rectangle(couleurActive, opaciteActive, depart.x, depart.y, arrivee.x, arrivee.y);
+                    objetsDessin.add(rectangle);
                 }
                 else if (outilActif.equals("triangle")) {
                     if (trianglePoints == 1) {
@@ -301,6 +304,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View source) {
             // On supprime le dernier élément ajouté dans le vecteur d'objets Dessin
+
             if (source == undo && objetsDessin.size() > 0) {
                 objetsDessin.remove(objetsDessin.size() - 1);
                 surface.invalidate();
@@ -308,21 +312,35 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (source == pinceau) {
                 outilActif = "traceLibre";
+                Toast.makeText(MainActivity.this,
+                        "Tracé libre.", Toast.LENGTH_SHORT).show();
             }
             else if (source == efface) {
                 outilActif = "efface";
+                Toast.makeText(MainActivity.this,
+                        "Efface.", Toast.LENGTH_SHORT).show();
             }
             else if (source == pipette) {
                 outilActif = "pipette";
+                Toast.makeText(MainActivity.this,
+                        "Pipette.", Toast.LENGTH_SHORT).show();
             }
             else if (source == cercle) {
                 outilActif = "cercle";
+                Toast.makeText(MainActivity.this,
+                        "Cercle.", Toast.LENGTH_SHORT).show();
             }
-            else if (source == carre) {
-                outilActif = "carre";
+            else if (source == rectangle) {
+                outilActif = "rectangle";
+                Toast.makeText(MainActivity.this,
+                        "Rectangle.", Toast.LENGTH_SHORT).show();
             }
             else if (source == triangle) {
                 outilActif = "triangle";
+                Toast toast = Toast.makeText(MainActivity.this,
+                        "Triangle.", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
             }
             else if (source == sauvegarder) {
                 String msg = "Veuillez donner un nom à votre réalisation. Celle-ci sera sauvegardée au format PNG.";
@@ -341,6 +359,8 @@ public class MainActivity extends AppCompatActivity {
             else if (source == info) {
                 String msg = "Réalisé par Déric Marchand\n\n" +
                         "Couleur personnalisée : cliquez sur l'afficheur de couleur active.\n\n" +
+                        "O : Opacité.\n" +
+                        "L : Largeur du trait.\n\n" +
                         "Prenez garde! La suppression d'une image à l'aide du bouton Supprimer est permanente.";
                 boiteDialogue(msg, "DMPaint v1.0", false, false);
             }
@@ -385,6 +405,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
 
+            // On récupère les paramètres utilisateur avant
+            // de dessiner quoi que ce soit
             crayonContour.setColor(couleurActive);
             crayonPlein.setColor(couleurActive);
             crayonEfface.setColor(couleurFondActive);
@@ -397,7 +419,6 @@ public class MainActivity extends AppCompatActivity {
             crayonPlein.setAlpha(opaciteActive);
             crayonEfface.setAlpha(opaciteActive);
 
-            // Ici on dessinera
             // On dessine les objets du vecteur d'objets Dessin en premier pour s'assurer que les tracés
             // libres et les formes se superposent aux dessins déjà réalisés.
             if (objetsDessin.size() > 0) {
@@ -410,6 +431,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            // Le reste de la méthode onDraw permet de dessiner en temps réel ce que
+            // l'utilisateur réalise avant que ça ne soit ajouté au vecteur d'objets Dessin
             if (traceLibre != null) {
                 if (outilActif.equals("efface")) {
                     canvas.drawPath(traceLibre, crayonEfface);
@@ -418,7 +441,7 @@ public class MainActivity extends AppCompatActivity {
                     canvas.drawPath(traceLibre, crayonContour);
                 }
             }
-            else if (outilActif.equals("cercle") | outilActif.equals("carre")) {
+            else if (outilActif.equals("cercle") | outilActif.equals("rectangle")) {
                 if (depart != null && arrivee != null) {
                     if (outilActif.equals("cercle")) {
                         int deltaX = Math.abs(arrivee.x - depart.x) * Math.abs(arrivee.x - depart.x);
@@ -483,6 +506,29 @@ public class MainActivity extends AppCompatActivity {
 
         MediaScannerConnection.scanFile(context, new String[] {file.getAbsolutePath()}, null, null);
     }
+//
+//    public void couleurPersonnelle() {
+//        ColorPickerDialog.builder cp = new ColorPickerDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+//                .setTitle("ColorPicker Dialog")
+//                .setPreferenceName("MyColorPickerDialog")
+//                .setPositiveButton(getString(R.string.confirm),
+//                        new ColorEnvelopeListener() {
+//                            @Override
+//                            public void onColorSelected(ColorEnvelope envelope, boolean fromUser) {
+//                                setLayoutColor(envelope);
+//                            }
+//                        })
+//        setNegativeButton(getString(R.string.cancel),
+//                new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.dismiss();
+//                    }
+//                })
+//                .attachAlphaSlideBar(true) // default is true. If false, do not show the AlphaSlideBar.
+//                .attachBrightnessSlideBar(true)  // default is true. If false, do not show the BrightnessSlideBar.
+//                .show();
+//    }
 
     public void boiteDialogue(String msg, String titre, boolean supprimer, boolean sauvegarder) {
         AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
@@ -490,7 +536,7 @@ public class MainActivity extends AppCompatActivity {
         b.setMessage(msg);
         b.setTitle(titre);
 
-        // Pour supprimer l'image au complet
+        // Pour supprimer l'image au complet (aucun retour arrière possible)
         if (supprimer) {
             b.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
                 @Override
