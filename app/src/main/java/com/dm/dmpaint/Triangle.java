@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 
 public class Triangle extends Forme {
-    int x3, y3;
+    private int x3, y3;
 
     public Triangle(int couleur, int opacite, int x1, int y1, int x2, int y2, int x3, int y3) {
         super(couleur, opacite, x1, y1, x2, y2);
